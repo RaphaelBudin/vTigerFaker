@@ -8,6 +8,9 @@ class Accounts extends EntityModelBase
 {
     protected $entityName = 'Accounts';
     protected $tableName = 'accounts';
+    protected $executionTimes = 0;
+    protected $executionMethod = '';
+    protected $describe = [];
     public function recordFactory_describe()
     {
         $fields = self::describe();
@@ -21,13 +24,13 @@ class Accounts extends EntityModelBase
 
             # Campos que não devem ser enviados na API
             switch ($fieldName) {
+                case 'account_id':
+                case 'account_no':
                 case 'createdtime':
                 case 'modifiedtime':
                 case 'modifiedby':
                 case 'isconvertedfromlead':
                 case 'source':
-                case 'account_id':
-                case 'account_no':
                 case 'tags':
                 case 'notify_owner':
                 case 'starred':
@@ -64,15 +67,13 @@ class Accounts extends EntityModelBase
             elseif (isset($fieldType['name']) && $fieldType['name'] == 'cnpj') {
                 // Gerar valor booleano aleatório
                 $record[$fieldName] = $faker->cnpj();
-            }
-            else if (strpos($fieldType['name'], 'email') !== false) {
+            } else if (strpos($fieldType['name'], 'email') !== false) {
                 $record[$fieldName] = $faker->companyEmail();
-            }
-            else if (strpos($fieldType['name'], 'phone') !== false) {
+            } else if (strpos($fieldType['name'], 'phone') !== false) {
                 $record[$fieldName] = $faker->phoneNumber();
             }
 
-            
+
             if (strpos($fieldName, 'street') !== false) {
                 $record[$fieldName] = $faker->address();
             }
@@ -91,7 +92,7 @@ class Accounts extends EntityModelBase
             if (strpos($fieldName, '_code') !== false) {
                 $record[$fieldName] = $faker->postcode();
             }
-            
+
             if (strpos($fieldName, 'website') !== false) {
                 $record[$fieldName] = $faker->url();
             }
