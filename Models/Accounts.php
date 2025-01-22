@@ -23,22 +23,24 @@ class Accounts extends EntityModelBase
             $fieldType = $field['type'];
 
             # Campos que não devem ser enviados na API
-            switch ($fieldName) {
-                case 'account_id':
-                case 'account_no':
-                case 'createdtime':
-                case 'modifiedtime':
-                case 'modifiedby':
-                case 'isconvertedfromlead':
-                case 'source':
-                case 'tags':
-                case 'notify_owner':
-                case 'starred':
-                case 'id':
-                    #É para continuar o loop do foreach, ao invés de apenas sair do switc-hcase
-                    continue 2;
-                default:;
-            }
+            $skippableFieldsModuleSpecific = [
+                'account_id',
+                'account_no',
+            ];
+            $skippableFieldsModuleAgnostic = [
+                'createdtime',
+                'modifiedtime',
+                'modifiedby',
+                'isconvertedfromlead',
+                'source',
+                'tags',
+                'notify_owner',
+                'starred',
+                'id',
+            ];
+            $skippableFields = $skippableFieldsModuleSpecific + $skippableFieldsModuleAgnostic;
+            if(in_array($fieldName,$skippableFields)) continue;
+            
 
             ### Para os campos específicos do módulo
 
@@ -57,36 +59,29 @@ class Accounts extends EntityModelBase
 
             ### Para tipos Primitivos (do vTiger)
 
-            // Picklist
             if (isset($fieldType['picklistValues'])) {
                 // Para picklist, escolher aleatoriamente um valor da lista de opções
                 $options = $fieldType['picklistValues'];
                 $record[$fieldName] = $faker->randomElement($options)['value'];
             }
-            //Currency
             elseif (isset($fieldType['name']) && $fieldType['name'] == 'currency') {
                 // Gerar um valor de receita anual (número entre 12.000 e 100.000)
                 $record[$fieldName] = $faker->numberBetween(12000, 100000);
             }
-            // Boolean
             elseif (isset($fieldType['name']) && $fieldType['name'] == 'boolean') {
                 // Gerar valor booleano aleatório
                 $record[$fieldName] = $faker->boolean();
             }
-            // Datetime
             elseif (isset($fieldType['name']) && $fieldType['name'] == 'datetime') {
                 // Gerar uma data aleatória
                 $record[$fieldName] = $faker->dateTimeThisDecade()->format('Y-m-d H:i:s');
             }
-            // CNPJ
             elseif (isset($fieldType['name']) && $fieldType['name'] == 'cnpj') {
                 $record[$fieldName] = $faker->cnpj();
             }
-            // Email
             else if (strpos($fieldType['name'], 'email') !== false) {
                 $record[$fieldName] = $faker->companyEmail();
             }
-            // Telefone
             else if (strpos($fieldType['name'], 'phone') !== false) {
                 $record[$fieldName] = $faker->phoneNumber();
             }
@@ -120,7 +115,7 @@ class Accounts extends EntityModelBase
                 default:
             }
         }
-        // Retornar o record gerado, opcionalmente, você pode codificar em JSON e URL-encodar como no seu exemplo.
+
         $record = json_encode($record);
         file_put_contents('teste.json', $record);
         $record = urlencode($record);
