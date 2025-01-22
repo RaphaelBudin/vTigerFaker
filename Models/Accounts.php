@@ -40,6 +40,21 @@ class Accounts extends EntityModelBase
                 default:;
             }
 
+            ### Para os campos específicos do módulo
+
+            if (strpos($fieldName, 'website') !== false) {
+                $record[$fieldName] = $faker->url();
+            }
+            if (strpos($fieldName, 'employees') !== false) {
+                $record[$fieldName] = $faker->numberBetween(1, 20);
+            }
+            if (strpos($fieldName, 'assigned_user_id') !== false) {
+                $record[$fieldName] = $faker->usuarioNetsac();
+            }
+            if (strpos($fieldName, 'accountname') !== false) {
+                $record[$fieldName] = $faker->company();
+            }
+
             ### Para tipos Primitivos (do vTiger)
 
             // Picklist
@@ -76,6 +91,7 @@ class Accounts extends EntityModelBase
                 $record[$fieldName] = $faker->phoneNumber();
             }
 
+            ### Para os campos de tipo genéricos multi-módulos
 
             if (strpos($fieldName, 'street') !== false) {
                 $record[$fieldName] = $faker->address();
@@ -95,20 +111,6 @@ class Accounts extends EntityModelBase
             if (strpos($fieldName, '_code') !== false) {
                 $record[$fieldName] = $faker->postcode();
             }
-
-            if (strpos($fieldName, 'website') !== false) {
-                $record[$fieldName] = $faker->url();
-            }
-            if (strpos($fieldName, 'employees') !== false) {
-                $record[$fieldName] = $faker->numberBetween(1, 20);
-            }
-            if (strpos($fieldName, 'assigned_user_id') !== false) {
-                $record[$fieldName] = $faker->usuarioNetsac();
-            }
-            if (strpos($fieldName, 'accountname') !== false) {
-                $record[$fieldName] = $faker->company();
-            }
-
             switch ($fieldType['name'] ?? '') {
                 case 'int':
                     break;
