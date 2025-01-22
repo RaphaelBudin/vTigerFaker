@@ -7,6 +7,7 @@ use Models\Auth;
 use Models\HttpRequestFactory;
 use Models\Accounts;
 use Models\Contacts;
+use Models\Potential;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -21,6 +22,9 @@ $auth = new Auth($URI, $USER_NAME, $ACCESS_KEY);
 // $SESSION_NAME= $auth->doLogin();
 $SESSION_NAME= "29b1c38e6790cccbabdee";
 
+$potentials = new Potential($UTILS, $HTTP_REQUEST);
+$potentials->count(300, 'create')->execute();
+// $potentials->describe();
 // $accounts = new Accounts($UTILS, $HTTP_REQUEST);
-$contacts = new Contacts($UTILS, $HTTP_REQUEST);
-$contacts->all();
+// $contacts = new Contacts($UTILS, $HTTP_REQUEST);
+// $contacts->all();
