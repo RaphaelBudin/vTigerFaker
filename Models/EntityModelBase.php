@@ -107,6 +107,7 @@ abstract class EntityModelBase implements EntityModelService
         ];
         $response = $this->httpRequest('POST', $params);
         $response = $response['result'];
+        echo "Iteração de {$this->executionMethod} finalizada";
         return true;
     }
 
