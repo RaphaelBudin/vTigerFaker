@@ -4,13 +4,18 @@ namespace Models;
 
 use ErrorException;
 
-abstract class EntityModelBase implements EntityModel
+abstract class EntityModelBase implements EntityModelService
 {
+    protected $HTTP_REQUEST;
     protected $entityName = '';
     protected $tableName = '';
     protected $executionTimes = 0;
     protected $executionMethod = '';
     protected $describe = [];
+
+    public function __construct($HTTP_REQUEST){
+        $this->HTTP_REQUEST = $HTTP_REQUEST;
+    }
 
     /**
      * Puxa todos os campos do módulo
@@ -25,7 +30,8 @@ abstract class EntityModelBase implements EntityModel
             "sessionName={$SESSION_NAME}",
             "elementType={$this->entityName}",
         ];
-        $response = $UTILS::sendHTTPGET($URI, $params);
+        // $response = $UTILS::sendHTTPGET($URI, $params);
+        $response = $this->httpRequest('GET', $params);
         $response = $response['result'];
 
         $this->toJSONFile('describe', $response);
@@ -164,5 +170,21 @@ abstract class EntityModelBase implements EntityModel
         $fileName = strtolower("{$className}_{$baseName}.json");
         file_put_contents($fileName, json_encode($data, JSON_PRETTY_PRINT));
         return $fileName;
+    }
+
+    public function httpRequest($verb, $params)
+    {
+        global $URI;
+        switch ($verb) {
+            case 'GET':
+                return $this->HTTP_REQUEST::sendHTTPGET($URI, $params);
+            case 'POST':
+                return $this->HTTP_REQUEST::sendHTTPPOST($URI, $params);
+            case 'PATCH':
+            case 'PUT':
+            case 'DELETE':
+            default:
+                throw new ErrorException("Método {$verb} não implementado ainda");
+        }
     }
 }

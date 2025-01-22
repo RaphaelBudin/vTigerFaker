@@ -21,7 +21,7 @@ class Utils
         if (isset($response['error'])) {
             $error = $response['error'];
             #Erros que não precisam bloquear
-            if($error['message'] == 'Duplicado(s) apagados!'){
+            if ($error['message'] == 'Duplicado(s) apagados!') {
                 echo "Duplicado encontrado, pulando...";
                 return false;
             }

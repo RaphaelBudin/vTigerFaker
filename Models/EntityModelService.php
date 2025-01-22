@@ -3,7 +3,7 @@
 
 namespace Models;
 
-interface EntityModel {
+interface EntityModelService {
     public function all();
     public function create($recordFactoryType);
     public function delete();

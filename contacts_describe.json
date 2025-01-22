@@ -1,0 +1,686 @@
+{
+    "label": "Contatos",
+    "name": "Contacts",
+    "createable": true,
+    "updateable": true,
+    "deleteable": true,
+    "retrieveable": true,
+    "fields": [
+        {
+            "name": "salutationtype",
+            "label": "Sauda\u00e7\u00e3o",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "firstname",
+            "label": "Nome",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "contact_no",
+            "label": "No. Contato",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": false,
+            "editable": false,
+            "default": ""
+        },
+        {
+            "name": "lastname",
+            "label": "Sobrenome",
+            "mandatory": true,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": false,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mobile",
+            "label": "Celular",
+            "mandatory": false,
+            "type": {
+                "name": "phone"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "account_id",
+            "label": "Nome Organiza\u00e7\u00e3o",
+            "mandatory": false,
+            "type": {
+                "refersTo": [
+                    "Accounts"
+                ],
+                "name": "reference"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "leadsource",
+            "label": "Fonte Lead",
+            "mandatory": false,
+            "type": {
+                "picklistValues": [
+                    {
+                        "label": "Cold Call",
+                        "value": "Cold Call"
+                    },
+                    {
+                        "label": "Cliente Existente",
+                        "value": "Existing Customer"
+                    },
+                    {
+                        "label": "Auto Gerado",
+                        "value": "Self Generated"
+                    },
+                    {
+                        "label": "Empregado",
+                        "value": "Employee"
+                    },
+                    {
+                        "label": "Parceiro",
+                        "value": "Partner"
+                    },
+                    {
+                        "label": "Rela\u00e7\u00f5es P\u00fablicas",
+                        "value": "Public Relations"
+                    },
+                    {
+                        "label": "Mala Direta",
+                        "value": "Direct Mail"
+                    },
+                    {
+                        "label": "Confer\u00eancia",
+                        "value": "Conference"
+                    },
+                    {
+                        "label": "Feira Neg\u00f3cios",
+                        "value": "Trade Show"
+                    },
+                    {
+                        "label": "Web Site",
+                        "value": "Web Site"
+                    },
+                    {
+                        "label": "Boca a Boca",
+                        "value": "Word of mouth"
+                    },
+                    {
+                        "label": "Outro",
+                        "value": "Other"
+                    }
+                ],
+                "defaultValue": "Cold Call",
+                "name": "picklist"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "otherphone",
+            "label": "Telefone Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "phone"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "title",
+            "label": "Cargo",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "department",
+            "label": "Departamento",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "birthday",
+            "label": "Anivers\u00e1rio",
+            "mandatory": false,
+            "type": {
+                "format": "dd-mm-yyyy",
+                "name": "date"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "email",
+            "label": "Email",
+            "mandatory": false,
+            "type": {
+                "name": "email"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "secondaryemail",
+            "label": "Email Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "email"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "donotcall",
+            "label": "Recusa Chamada",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "emailoptout",
+            "label": "Recusa Email",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "assigned_user_id",
+            "label": "Respons\u00e1vel",
+            "mandatory": true,
+            "type": {
+                "name": "owner"
+            },
+            "isunique": false,
+            "nullable": false,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "reference",
+            "label": "Refer\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "notify_owner",
+            "label": "Notificar Propriet\u00e1rio",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "createdtime",
+            "label": "Data Cria\u00e7\u00e3o",
+            "mandatory": false,
+            "type": {
+                "name": "datetime"
+            },
+            "isunique": false,
+            "nullable": false,
+            "editable": false,
+            "default": ""
+        },
+        {
+            "name": "modifiedtime",
+            "label": "Hora Modifica\u00e7\u00e3o",
+            "mandatory": false,
+            "type": {
+                "name": "datetime"
+            },
+            "isunique": false,
+            "nullable": false,
+            "editable": false,
+            "default": ""
+        },
+        {
+            "name": "modifiedby",
+            "label": "\u00daltima Modifica\u00e7\u00e3o por",
+            "mandatory": false,
+            "type": {
+                "refersTo": [
+                    "Users"
+                ],
+                "name": "reference"
+            },
+            "isunique": false,
+            "nullable": false,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "portal",
+            "label": "Portal Usu\u00e1rio",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "support_start_date",
+            "label": "Data In\u00edcio Suporte",
+            "mandatory": false,
+            "type": {
+                "format": "dd-mm-yyyy",
+                "name": "date"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "support_end_date",
+            "label": "Data T\u00e9rmino Suporte",
+            "mandatory": false,
+            "type": {
+                "format": "dd-mm-yyyy",
+                "name": "date"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mailingstreet",
+            "label": "Endere\u00e7o Correspond\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "text"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "otherstreet",
+            "label": "Endere\u00e7o Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "text"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mailingcity",
+            "label": "Cidade Correspond\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "othercity",
+            "label": "Cidade Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mailingstate",
+            "label": "Estado Correspond\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "otherstate",
+            "label": "Estado Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mailingzip",
+            "label": "CEP Correspond\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "otherzip",
+            "label": "CEP Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mailingcountry",
+            "label": "Pa\u00eds Correspond\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "othercountry",
+            "label": "Pa\u00eds Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "mailingpobox",
+            "label": "Bairro Correspond\u00eancia",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "otherpobox",
+            "label": "Bairro Alternativo",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "imagename",
+            "label": "Imagem Contato",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "description",
+            "label": "Descri\u00e7\u00e3o",
+            "mandatory": false,
+            "type": {
+                "name": "text"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "isconvertedfromlead",
+            "label": "Convertido a partir do Lead",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": "no"
+        },
+        {
+            "name": "source",
+            "label": "Fonte",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": false,
+            "default": ""
+        },
+        {
+            "name": "starred",
+            "label": "starred",
+            "mandatory": false,
+            "type": {
+                "name": "boolean"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "tags",
+            "label": "tags",
+            "mandatory": false,
+            "type": {
+                "name": "string"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "cf_939",
+            "label": "Ano",
+            "mandatory": false,
+            "type": {
+                "name": "integer"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": ""
+        },
+        {
+            "name": "cf_941",
+            "label": "Cor",
+            "mandatory": false,
+            "type": {
+                "picklistValues": [
+                    {
+                        "label": "Verde",
+                        "value": "Verde"
+                    },
+                    {
+                        "label": "Azul",
+                        "value": "Azul"
+                    },
+                    {
+                        "label": "Vermelho",
+                        "value": "Vermelho"
+                    },
+                    {
+                        "label": "Cinza",
+                        "value": "Cinza"
+                    },
+                    {
+                        "label": "Amarelo",
+                        "value": "Amarelo"
+                    },
+                    {
+                        "label": "Roxo",
+                        "value": "Roxo"
+                    }
+                ],
+                "defaultValue": "Verde",
+                "name": "picklist"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": " "
+        },
+        {
+            "name": "cf_1263",
+            "label": "M\u00eddia",
+            "mandatory": false,
+            "type": {
+                "picklistValues": [
+                    {
+                        "label": "PL",
+                        "value": "PL"
+                    },
+                    {
+                        "label": "ENE",
+                        "value": "ENE"
+                    }
+                ],
+                "defaultValue": "PL",
+                "name": "multipicklist"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": null
+        },
+        {
+            "name": "cf_1294",
+            "label": "Teste",
+            "mandatory": false,
+            "type": {
+                "picklistValues": [
+                    {
+                        "label": "Teste 1",
+                        "value": "Teste 1"
+                    },
+                    {
+                        "label": "Teste 2",
+                        "value": "Teste 2"
+                    }
+                ],
+                "defaultValue": "Teste 1",
+                "name": "picklist"
+            },
+            "isunique": false,
+            "nullable": true,
+            "editable": true,
+            "default": " "
+        },
+        {
+            "name": "id",
+            "label": "contactid",
+            "mandatory": false,
+            "type": {
+                "name": "autogenerated"
+            },
+            "editable": false,
+            "nullable": false,
+            "default": ""
+        }
+    ],
+    "idPrefix": "12",
+    "isEntity": true,
+    "allowDuplicates": true,
+    "labelFields": "firstname,lastname"
+}
