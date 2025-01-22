@@ -110,7 +110,7 @@ class Company extends \Faker\Provider\Company
     }
 
     public function departamento(){
-        $departamentos = array(
+        $departamentos = [
             "TI (Tecnologia da Informação)",
             "Marketing",
             "Vendas",
@@ -123,7 +123,15 @@ class Company extends \Faker\Provider\Company
             "Pesquisa e Desenvolvimento",
             "Logística",
             "Administração"
-        );
+        ];
         return $departamentos[array_rand($departamentos)];
+    }
+
+    
+    public function organizacao($organizacoes){
+        return $organizacoes[array_rand($organizacoes)];
+    }
+    public function organizacaoID($organizacoes){
+        return $organizacoes[array_rand($organizacoes)]['id'];
     }
 }
