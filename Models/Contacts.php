@@ -24,11 +24,8 @@ class Contacts extends EntityModelBase
             $fieldName = $field['name'];
             $fieldType = $field['type'];
 
-              # Campos que não devem ser enviados na API
-              $skippableFieldsModuleSpecific = [
-                // 'account_id',
-                // 'account_no',
-            ];
+            # Campos que não devem ser enviados na API
+            $skippableFieldsModuleSpecific = [];
             $skippableFieldsModuleAgnostic = [
                 'createdtime',
                 'modifiedtime',
@@ -41,48 +38,51 @@ class Contacts extends EntityModelBase
                 'id',
             ];
             $skippableFields = $skippableFieldsModuleSpecific + $skippableFieldsModuleAgnostic;
-            if(in_array($fieldName,$skippableFields)) continue;
-
-            ### Para os campos específicos do módulo
-            
-            if (strpos($fieldName, 'employees') !== false) {
-                $record[$fieldName] = $faker->numberBetween(1, 20);
-            }
-            if (strpos($fieldName, 'assigned_user_id') !== false) {
-                $record[$fieldName] = $faker->usuarioNetsac();
-            }
-            if (strpos($fieldName, 'accountname') !== false) {
-                $record[$fieldName] = $faker->company();
-            }
+            if (in_array($fieldName, $skippableFields)) continue;
 
             ### Para tipos Primitivos (do vTiger)
 
-            // Picklist
+            switch ($fieldType['name'] ?? '') {
+                case 'int':
+                    break;
+                case 'double':
+                    $record[$fieldName] = $faker->randomFloat(2, 0, 100);
+                    break;
+                case 'currency':
+                    $record[$fieldName] = $faker->numberBetween(12000, 100000);
+                    break;
+                case 'boolean':
+                    $record[$fieldName] = $faker->boolean();
+                    break;
+                case 'datetime':
+                    $record[$fieldName] = $faker->dateTimeThisDecade()->format('Y-m-d H:i:s');
+                    break;
+                case 'date':
+                    $record[$fieldName] = $faker->dateTimeThisDecade()->format('Y-m-d');
+                    break;
+                case 'time':
+                    $record[$fieldName] = $faker->dateTimeThisDecade()->format('H:i:s');
+                case 'cnpj':
+                    $record[$fieldName] = $faker->cnpj();
+                    break;
+                case 'email':
+                    $record[$fieldName] = $faker->companyEmail();
+                    break;
+                case 'phone':
+                    $record[$fieldName] = $faker->phoneNumber();
+                    break;
+                case 'text':
+                    $text = $faker->paragraphs();
+                    $text = implode("\n\n",$text);
+                    $record[$fieldName] = $text;
+                    break;
+            }
+
+            ### Para picklists 
+
             if (isset($fieldType['picklistValues'])) {
                 $options = $fieldType['picklistValues'];
                 $record[$fieldName] = $faker->randomElement($options)['value'];
-            }
-            //Currency
-            elseif (isset($fieldType['name']) && $fieldType['name'] == 'currency') {
-                $record[$fieldName] = $faker->numberBetween(12000, 100000);
-            }
-            // Boolean
-            elseif (isset($fieldType['name']) && $fieldType['name'] == 'boolean') {
-                $record[$fieldName] = $faker->boolean();
-            }
-            // Datetime
-            elseif (isset($fieldType['name']) && $fieldType['name'] == 'datetime') {
-                $record[$fieldName] = $faker->dateTimeThisDecade()->format('Y-m-d H:i:s');
-            }
-            // CNPJ
-            elseif (isset($fieldType['name']) && $fieldType['name'] == 'cnpj') {
-                $record[$fieldName] = $faker->cnpj();
-            }
-            else if (strpos($fieldType['name'], 'email') !== false) {
-                $record[$fieldName] = $faker->companyEmail();
-            }
-            else if (strpos($fieldType['name'], 'phone') !== false) {
-                $record[$fieldName] = $faker->phoneNumber();
             }
 
             ### Para os campos de tipo genéricos multi-módulos
@@ -105,18 +105,32 @@ class Contacts extends EntityModelBase
             if (strpos($fieldName, '_code') !== false) {
                 $record[$fieldName] = $faker->postcode();
             }
-
+            if (strpos($fieldName, 'zip') !== false) {
+                $record[$fieldName] = $faker->postcode();
+            }
             if (strpos($fieldName, 'website') !== false) {
                 $record[$fieldName] = $faker->url();
             }
 
-            switch ($fieldType['name'] ?? '') {
-                case 'int':
-                    break;
-                case 'double':
-                    $record[$fieldName] = $faker->randomFloat(2, 0, 100);
-                    break;
-                default:
+            ### Responsável 
+
+            if (strpos($fieldName, 'assigned_user_id') !== false) {
+                $record[$fieldName] = $faker->usuarioNetsac();
+            }
+
+            ### Para os campos específicos do módulo
+
+            if (strpos($fieldName, 'firstname') !== false) {
+                $record[$fieldName] = $faker->firstName();
+            }
+            if (strpos($fieldName, 'lastname') !== false) {
+                $record[$fieldName] = $faker->lastName();
+            }
+            if (strpos($fieldName, 'title') !== false) {
+                $record[$fieldName] = $faker->cargo();
+            }
+            if (strpos($fieldName, needle: 'department') !== false) {
+                $record[$fieldName] = $faker->departamento();
             }
         }
         // Retornar o record gerado, opcionalmente, você pode codificar em JSON e URL-encodar como no seu exemplo.
@@ -129,39 +143,7 @@ class Contacts extends EntityModelBase
     public function recordFactory_fixed()
     {
         $faker = FakerFactory::create('pt_BR');
-        $record = [
-            "accountname" => $faker->company(),
-            "cf_884" => $faker->cnpj(),
-            "email1" => $faker->companyEmail(),
-            "email2" => $faker->companyEmail(),
-            "phone" => $faker->phoneNumber(),
-            "otherphone" => $faker->phoneNumber(),
-            "website" => $faker->url(),
-            "industry" => $faker->segmento(),
-            "annual_revenue" => $faker->numberBetween(12000, 100000),
-            "employees" => $faker->numberBetween(1, 500),
-            "accounttype" => "Cliente",
-            // "account_id" => 53,
-            // "emailoptout" => "Recusa Email",
-            // "notify_owner" => "Notificar Proprietário",
-            "assigned_user_id" => $faker->usuarioNetsac(),
-            "cf_1241" => "Ativo",
-            "cf_1243" => "A",
-            "cf_1245" => $faker->phoneNumber(),
-            "bill_code" => $faker->postcode(),
-            "ship_code" => $faker->postcode(),
-            "bill_street" => $faker->address(),
-            "ship_street" => $faker->address(),
-            // "bill_pobox" => "Bairro Faturamento",
-            // "ship_pobox" => "Bairro Entrega",
-            "bill_city" => $faker->city(),
-            "ship_city" => $faker->city(),
-            "bill_state" => $faker->uf(),
-            "ship_state" => $faker->uf(),
-            "bill_country" => 'Brasil',
-            "ship_country" => 'Brasil',
-            "description" => $faker->paragraph()
-        ];
+        $record = [];
         $record = json_encode($record);
         $record = urlencode($record);
         return $record;

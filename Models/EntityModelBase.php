@@ -171,7 +171,10 @@ abstract class EntityModelBase implements EntityModelService
     {
         $className = basename(str_replace('\\', '/', get_class($this)));
         $fileName = strtolower("{$className}_{$baseName}.json");
-        file_put_contents($fileName, json_encode($data, JSON_PRETTY_PRINT));
+        $data = json_encode($data, JSON_PRETTY_PRINT);
+
+        file_put_contents($fileName, $data);
+        
         return $fileName;
     }
 
