@@ -2,6 +2,9 @@
 
 namespace Faker\Provider\pt_BR;
 
+use Models\Accounts;
+use Models\Contacts;
+
 require_once 'check_digit.php';
 
 class Company extends \Faker\Provider\Company
@@ -109,7 +112,8 @@ class Company extends \Faker\Provider\Company
         return $cargos[array_rand($cargos)];
     }
 
-    public function departamento(){
+    public function departamento()
+    {
         $departamentos = [
             "TI (Tecnologia da Informação)",
             "Marketing",
@@ -127,8 +131,17 @@ class Company extends \Faker\Provider\Company
         return $departamentos[array_rand($departamentos)];
     }
 
-    
-    public function organizacao($organizacoes){
-        return $organizacoes[array_rand($organizacoes)];
+
+    public function organizacao($filename = 'accounts_all.json')
+    {
+        $accounts_all = Accounts::readFromFile($filename);
+        $accounts_all = array_merge(...$accounts_all);
+        return $accounts_all[array_rand($accounts_all)];
+    }
+
+    public function contato($filename='contacts_all.json'){
+        $contacts = Contacts::readFromFile($filename);
+        $contacts = array_merge(...$contacts);
+        return $contacts[array_rand($contacts)];
     }
 }

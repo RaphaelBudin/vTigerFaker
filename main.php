@@ -22,5 +22,5 @@ $auth = new Auth($URI, $USER_NAME, $ACCESS_KEY);
 $SESSION_NAME= "29b1c38e6790cccbabdee";
 
 // $accounts = new Accounts($UTILS, $HTTP_REQUEST);
-// $contacts = new Contacts($UTILS, $HTTP_REQUEST);
-
+$contacts = new Contacts($UTILS, $HTTP_REQUEST);
+$contacts->all();
