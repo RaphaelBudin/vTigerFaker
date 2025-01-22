@@ -27,7 +27,6 @@ class Potential extends EntityModelBase
             # Campos que não devem ser enviados na API
             $skippableFieldsModuleSpecific = [
                 'potential_no',
-
             ];
             $skippableFieldsModuleAgnostic = [
                 'createdtime',
@@ -76,7 +75,7 @@ class Potential extends EntityModelBase
                     break;
                 case 'text':
                     $text = $faker->paragraphs();
-                    $text = implode("\n\n",$text);
+                    $text = implode("\n\n", $text);
                     $record[$fieldName] = $text;
                     break;
             }
@@ -126,20 +125,17 @@ class Potential extends EntityModelBase
             if (strpos($fieldName, 'potentialname') !== false) {
                 $record[$fieldName] = $faker->tituloOportunidade;
             }
-            // if (strpos($fieldName, 'amount') !== false) {
-                // $record[$fieldName] = $faker->lastName();
-            // }
-            if (strpos($fieldName, 'contact_id') !== false) {
-                $record[$fieldName] = $faker->contato()['id'];
+
+            ## Vinculações com módulos relacionados
+
+            if ((strpos($fieldName, 'contact_id') !== false || strpos($fieldName, 'related_to') !== false) && !isset($record[$fieldName])) {
+                # Na mesma hora para não vincular organizações que não tem nada a ver com o contato ao trocar o campo na iteração
+                $contact = $faker->contato();
+                $record['contact_id'] = $contact['id'];
+                $record['related_to'] = $contact['account_id'];
             }
-
-            ### Para vincular à uma organização
-
-            if (strpos($fieldName, 'related_to') !== false) {
-                $record[$fieldName] = $faker->organizacao()['id'];
-            }
-
         }
+        
         // Retornar o record gerado, opcionalmente, você pode codificar em JSON e URL-encodar como no seu exemplo.
         $this->toJSONFile('record', $record);
         $record = json_encode($record);
