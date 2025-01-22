@@ -65,11 +65,14 @@ class Accounts extends EntityModelBase
             }
             // CNPJ
             elseif (isset($fieldType['name']) && $fieldType['name'] == 'cnpj') {
-                // Gerar valor booleano aleatório
                 $record[$fieldName] = $faker->cnpj();
-            } else if (strpos($fieldType['name'], 'email') !== false) {
+            }
+            // Email
+            else if (strpos($fieldType['name'], 'email') !== false) {
                 $record[$fieldName] = $faker->companyEmail();
-            } else if (strpos($fieldType['name'], 'phone') !== false) {
+            }
+            // Telefone
+            else if (strpos($fieldType['name'], 'phone') !== false) {
                 $record[$fieldName] = $faker->phoneNumber();
             }
 
