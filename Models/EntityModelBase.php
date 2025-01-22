@@ -174,7 +174,7 @@ abstract class EntityModelBase implements EntityModelService
         $data = json_encode($data, JSON_PRETTY_PRINT);
 
         file_put_contents($fileName, $data);
-        
+
         return $fileName;
     }
 
@@ -182,5 +182,20 @@ abstract class EntityModelBase implements EntityModelService
     {
         global $URI;
         return $this->HTTP_REQUEST::createRequest($this->UTILS, $URI, $verb, $params);
+    }
+
+    public static function readFromFile($filename = null)
+    {
+        if (file_exists($filename)) {
+            $data = json_decode(file_get_contents($filename), true);
+            return $data;
+        } else {
+            die("Arrquivo {$filename} NÃO existe");
+        }
+    }
+
+    public static function chooseRandom($records)
+    {
+        return $records[array_rand($records)];
     }
 }

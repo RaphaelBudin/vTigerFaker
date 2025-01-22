@@ -132,6 +132,16 @@ class Contacts extends EntityModelBase
             if (strpos($fieldName, needle: 'department') !== false) {
                 $record[$fieldName] = $faker->departamento();
             }
+
+            ### Para vincular à uma organização
+
+            if (strpos($fieldName, 'account_id') !== false) {
+                $accounts_all = Accounts::readFromFile('accounts_all.json');
+                $accounts_all = array_merge(...$accounts_all);
+                $account = Accounts::chooseRandom($accounts_all);
+                $record[$fieldName] = $account['id'];
+            }
+
         }
         // Retornar o record gerado, opcionalmente, você pode codificar em JSON e URL-encodar como no seu exemplo.
         $this->toJSONFile('record', $record);

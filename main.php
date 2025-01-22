@@ -21,15 +21,16 @@ $auth = new Auth($URI, $USER_NAME, $ACCESS_KEY);
 // $SESSION_NAME= $auth->doLogin();
 $SESSION_NAME= "29b1c38e6790cccbabdee";
 
-// $accounts = new Accounts();
-// $accounts = $accounts->all();
+// $accounts = new Accounts($UTILS, $HTTP_REQUEST);
+$contacts = new Contacts($UTILS, $HTTP_REQUEST);
+
+// $accounts_all = $accounts->all();
 // $teste = $accounts->describe();
 // $accounts->count('300', 'create')->execute();
 // $teste = $accounts->create();
 
-$contacts = new Contacts($UTILS, $HTTP_REQUEST);
 // $contacts->describe();
-$contacts->create();
+$contacts->count('800', 'create')->execute();
 
 // var_dump($teste);
 // var_dump($accounts);
