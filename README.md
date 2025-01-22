@@ -1,4 +1,7 @@
 # TODO
+[ ] Quote: incluir dinamicamente produtos e quantidades
+[ ] Refat: jogar lógica do recordFactory_describe() na superclasse, apenas passar as variáveis pertinentes
+[ ] Refat: tratar jsons de entrada para remover todos os array_merges
 
 # Problemas Conhecidos
 

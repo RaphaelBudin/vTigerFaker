@@ -189,10 +189,19 @@ abstract class EntityModelBase implements EntityModelService
     {
         if (file_exists($filename)) {
             $data = json_decode(file_get_contents($filename), true);
+
             return $data;
         } else {
             die("Arrquivo {$filename} NÃO existe");
         }
+    }
+
+    public static function attributeAsKeys($records, $attribute='id')
+    {
+        $result = [];
+        foreach ($records as $item)
+            $result[$item[$attribute]] = $item;
+        return $result;
     }
 
     public static function chooseRandom($records)

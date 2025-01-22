@@ -270,7 +270,7 @@ class Company extends \Faker\Provider\Company
 
     public function oportunidade()
     {
-        $oportunidades = Potential::readFromFile();
+        $oportunidades = Potential::readFromFile('potentials_all.json');
         $oportunidades = array_merge(...$oportunidades);
         return Potential::chooseRandom($oportunidades);
     }
