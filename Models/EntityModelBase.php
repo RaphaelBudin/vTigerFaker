@@ -28,9 +28,8 @@ abstract class EntityModelBase implements EntityModel
         $response = $UTILS::sendHTTPGET($URI, $params);
         $response = $response['result'];
 
-        file_put_contents('describe.json', json_encode($response));
+        $this->toJSONFile('describe', $response);
         $this->describe = $response;
-
         return $response;
     }
 
@@ -76,11 +75,9 @@ abstract class EntityModelBase implements EntityModel
 
             $all_records[] = $response;
             $lowerRange += 100;
-
         } while (count($response) == 100);
-        
-        file_put_contents('accounts_all.json', json_encode($all_records));
 
+        $this->toJSONFile('all', $all_records);
         return $all_records;
     }
 
@@ -152,5 +149,20 @@ abstract class EntityModelBase implements EntityModel
     public function delete()
     {
         throw new ErrorException("Método delete() não implementado");
+    }
+
+    /**
+     * Converte dados para JSON e armazena localmente
+     * Nome do arquivo é padronizado automaticamente: módulo + nome informado + .json, tudo minúsculas
+     * @param string $baseName
+     * @param array $data
+     * @return string Nome do arquivo final
+     */
+    public function toJSONFile($baseName, $data)
+    {
+        $className = basename(str_replace('\\', '/', get_class($this)));
+        $fileName = strtolower("{$className}_{$baseName}.json");
+        file_put_contents($fileName, json_encode($data, JSON_PRETTY_PRINT));
+        return $fileName;
     }
 }
