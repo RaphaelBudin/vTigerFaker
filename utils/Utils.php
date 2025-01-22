@@ -20,7 +20,12 @@ class Utils
 
         if (isset($response['error'])) {
             $error = $response['error'];
-            throw new Exception($error['code'] . ': ' . $error['message']);
+            #Erros que não precisam bloquear
+            if($error['message'] == 'Duplicado(s) apagados!'){
+                echo "Duplicado encontrado, pulando...";
+                return false;
+            }
+            throw new Exception("Código erro: {$error['code']} -> Mensagem erro: {$error['message']}");
         }
 
         var_dump('Resposta com erro: ', $response);
