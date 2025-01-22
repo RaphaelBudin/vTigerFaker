@@ -3,8 +3,9 @@ require_once __DIR__ . '/vendor/autoload.php';
 require_once "utils/Utils.php";
 use Dotenv\Dotenv;
 
-use Models\Accounts;
 use Models\Auth;
+use Models\HttpRequestFactory;
+use Models\Accounts;
 use Models\Contacts;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
@@ -26,8 +27,9 @@ $SESSION_NAME= "29b1c38e6790cccbabdee";
 // $accounts->count('300', 'create')->execute();
 // $teste = $accounts->create();
 
-$contacts = new Contacts($HTTP_REQUEST);
-$contacts->describe();
+$contacts = new Contacts($UTILS, $HTTP_REQUEST);
+// $contacts->describe();
+$contacts->create();
 
 // var_dump($teste);
 // var_dump($accounts);

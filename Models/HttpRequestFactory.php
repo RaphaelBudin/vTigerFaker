@@ -1,29 +1,32 @@
 <?php
+
+namespace Models;
+use ErrorException;
+
 interface HttpRequestService {
-    public function sendRequest($uri, $params);
+    public static function sendRequest($UTILS, $uri, $params);
 }
 
 class HttpGetRequest implements HttpRequestService {
-    public function sendRequest($uri, $params) {
-        global $UTILS;
+    public static function sendRequest($UTILS, $uri, $params) {
         return $UTILS::sendHTTPGET($uri, $params);
     }
 }
 
 class HttpPostRequest implements HttpRequestService {
-    public function sendRequest($uri, $params) {
-        global $UTILS;
+    public static function sendRequest($UTILS, $uri, $params) {
         return $UTILS::sendHTTPPOST($uri, $params);
     }
 }
 
 class HttpRequestFactory {
-    public static function createRequest($verb) {
+    public static function createRequest($UTILS, $URI, $verb, $params) {
         switch ($verb) {
             case 'GET':
-                return new HttpGetRequest();
+                // return new HttpGetRequest($UTILS, $URI, $params);
+                return HttpGetRequest::sendRequest($UTILS, $URI, $params);
             case 'POST':
-                return new HttpPostRequest();
+                return HttpPostRequest::sendRequest($UTILS, $URI, $params);
             case 'PATCH':
             case 'PUT':
             case 'DELETE':

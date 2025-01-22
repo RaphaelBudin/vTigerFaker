@@ -7,13 +7,16 @@ use ErrorException;
 abstract class EntityModelBase implements EntityModelService
 {
     protected $HTTP_REQUEST;
+    protected $UTILS;
     protected $entityName = '';
     protected $tableName = '';
     protected $executionTimes = 0;
     protected $executionMethod = '';
     protected $describe = [];
 
-    public function __construct($HTTP_REQUEST){
+    public function __construct($UTILS, $HTTP_REQUEST)
+    {
+        $this->UTILS = $UTILS;
         $this->HTTP_REQUEST = $HTTP_REQUEST;
     }
 
@@ -24,7 +27,7 @@ abstract class EntityModelBase implements EntityModelService
      */
     public function describe()
     {
-        global $URI, $SESSION_NAME, $UTILS;
+        global $SESSION_NAME;
         $params =  [
             'operation=describe',
             "sessionName={$SESSION_NAME}",
@@ -45,7 +48,7 @@ abstract class EntityModelBase implements EntityModelService
      */
     public function countRecords()
     {
-        global $URI, $SESSION_NAME, $UTILS;
+        global $SESSION_NAME;
         # Para o orderby 
         $query = urlencode("SELECT count(*) from {$this->entityName};");
         $params =  [
@@ -53,7 +56,7 @@ abstract class EntityModelBase implements EntityModelService
             "sessionName={$SESSION_NAME}",
             "query={$query}",
         ];
-        $response = $UTILS::sendHTTPGET($URI, $params);
+        $response = $this->httpRequest('GET', $params);
         $response = $response['result'];
         return (int)$response;
     }
@@ -64,7 +67,7 @@ abstract class EntityModelBase implements EntityModelService
      */
     public function all()
     {
-        global $URI, $SESSION_NAME, $UTILS;
+        global $SESSION_NAME;
         $all_records = [];
         $lowerRange =  0;
         # Para pegar mais de 100 registros
@@ -76,7 +79,7 @@ abstract class EntityModelBase implements EntityModelService
                 "sessionName={$SESSION_NAME}",
                 "query={$query}",
             ];
-            $response = $UTILS::sendHTTPGET($URI, $params);
+            $response = $this->httpRequest('GET', $params);
             $response = $response['result'];
 
             $all_records[] = $response;
@@ -94,7 +97,7 @@ abstract class EntityModelBase implements EntityModelService
      */
     public function create($recordFactoryType = 'describe')
     {
-        global $URI, $SESSION_NAME, $UTILS;
+        global $SESSION_NAME;
         $record = $recordFactoryType == 'fixed' ? $this->recordFactory_fixed() : $this->recordFactory_describe();
         $params = [
             'operation=create',
@@ -102,7 +105,7 @@ abstract class EntityModelBase implements EntityModelService
             "element={$record}",
             "elementType={$this->entityName}",
         ];
-        $response = $UTILS::sendHTTPPOST($URI, $params);
+        $response = $this->httpRequest('POST', $params);
         $response = $response['result'];
         return true;
     }
@@ -175,16 +178,6 @@ abstract class EntityModelBase implements EntityModelService
     public function httpRequest($verb, $params)
     {
         global $URI;
-        switch ($verb) {
-            case 'GET':
-                return $this->HTTP_REQUEST::sendHTTPGET($URI, $params);
-            case 'POST':
-                return $this->HTTP_REQUEST::sendHTTPPOST($URI, $params);
-            case 'PATCH':
-            case 'PUT':
-            case 'DELETE':
-            default:
-                throw new ErrorException("Método {$verb} não implementado ainda");
-        }
+        return $this->HTTP_REQUEST::createRequest($this->UTILS, $URI, $verb, $params);
     }
 }
