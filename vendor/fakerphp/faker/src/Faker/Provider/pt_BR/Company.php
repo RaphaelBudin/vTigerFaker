@@ -131,7 +131,4 @@ class Company extends \Faker\Provider\Company
     public function organizacao($organizacoes){
         return $organizacoes[array_rand($organizacoes)];
     }
-    public function organizacaoID($organizacoes){
-        return $organizacoes[array_rand($organizacoes)]['id'];
-    }
 }

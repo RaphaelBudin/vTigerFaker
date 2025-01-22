@@ -138,7 +138,7 @@ class Contacts extends EntityModelBase
             if (strpos($fieldName, 'account_id') !== false) {
                 $accounts_all = Accounts::readFromFile('accounts_all.json');
                 $accounts_all = array_merge(...$accounts_all);
-                $record[$fieldName] = $faker->organizacaoID($accounts_all);
+                $record[$fieldName] = $faker->organizacao($accounts_all)['id'];
             }
 
         }
