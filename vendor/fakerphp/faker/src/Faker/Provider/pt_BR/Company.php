@@ -4,6 +4,7 @@ namespace Faker\Provider\pt_BR;
 
 use Models\Accounts;
 use Models\Contacts;
+use Models\Potential;
 
 require_once 'check_digit.php';
 
@@ -134,16 +135,16 @@ class Company extends \Faker\Provider\Company
 
     public function organizacao($filename = 'accounts_all.json')
     {
-        $accounts_all = Accounts::readFromFile($filename);
-        $accounts_all = array_merge(...$accounts_all);
-        return $accounts_all[array_rand($accounts_all)];
+        $accounts = Accounts::readFromFile($filename);
+        $accounts = array_merge(...$accounts);
+        return Accounts::chooseRandom($accounts);
     }
 
     public function contato($filename = 'contacts_all.json')
     {
         $contacts = Contacts::readFromFile($filename);
         $contacts = array_merge(...$contacts);
-        return $contacts[array_rand($contacts)];
+        return Contacts::chooseRandom($contacts);
     }
 
     public function tituloOportunidade()
@@ -265,5 +266,12 @@ class Company extends \Faker\Provider\Company
             "Proposta de Implementação de Ferramentas de Gestão - Jan/25"
         ];
         return $titulosOportunidades[array_rand($titulosOportunidades)];
+    }
+
+    public function oportunidade()
+    {
+        $oportunidades = Potential::readFromFile();
+        $oportunidades = array_merge(...$oportunidades);
+        return Potential::chooseRandom($oportunidades);
     }
 }
