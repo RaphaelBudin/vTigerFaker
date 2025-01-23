@@ -130,12 +130,15 @@ class Potential extends EntityModelBase
 
             if ((strpos($fieldName, 'contact_id') !== false || strpos($fieldName, 'related_to') !== false) && !isset($record[$fieldName])) {
                 # Na mesma hora para não vincular organizações que não tem nada a ver com o contato ao trocar o campo na iteração
-                $contact = $faker->contato();
+                do {
+                    $contact = $faker->contato();
+                    var_dump($contact);
+                } while (!isset($contact['account_id']) || $contact['account_id'] == '');
                 $record['contact_id'] = $contact['id'];
                 $record['related_to'] = $contact['account_id'];
             }
         }
-        
+
         // Retornar o record gerado, opcionalmente, você pode codificar em JSON e URL-encodar como no seu exemplo.
         $this->toJSONFile('record', $record);
         $record = json_encode($record);

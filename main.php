@@ -9,7 +9,7 @@ use Models\HttpRequestFactory;
 use Models\Accounts;
 use Models\Contacts;
 use Models\Potential;
-use Models\Quote;
+// use Models\Quote;
 
 $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
@@ -21,10 +21,10 @@ $USER_NAME = $_ENV['USER_NAME'];
 $ACCESS_KEY = $_ENV['ACCESSKEY'];
 
 $auth = new Auth($URI, $USER_NAME, $ACCESS_KEY);
-// $SESSION_NAME= $auth->doLogin();
-$SESSION_NAME = "29b1c38e6790cccbabdee";
+$SESSION_NAME= $auth->doLogin();
+// $SESSION_NAME = "67ff8aa7679242a08069";
 
-$module = new Quote($UTILS, $HTTP_REQUEST);
-$module->create();
+$module = new Potential($UTILS, $HTTP_REQUEST);
+$module->count(2400, 'create')->execute();
 // $module->count(2400, 'create')->execute();
 // $module->all();
